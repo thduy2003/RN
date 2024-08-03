@@ -5,7 +5,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Hello world!!</Text>
-      <StatusBar style='auto' />
+      <Text style={styles.hello}>Hello world2</Text>
     </View>
   );
 }
@@ -16,5 +16,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  hello: {
+    fontSize: 30,
+    color: "red",
   },
 });
