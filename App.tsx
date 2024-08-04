@@ -1,17 +1,39 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
-  const [count, setCount] = useState<number>(0);
+  const [students, setStudents] = useState([
+    { id: 1, name: "Duy1" },
+    { id: 2, name: "Duy2" },
+    { id: 3, name: "Duy3" },
+    { id: 4, name: "Duy4" },
+    { id: 5, name: "Duy5" },
+    { id: 6, name: "Duy6" },
+    { id: 7, name: "Duy7" },
+    { id: 8, name: "Duy8" },
+    { id: 9, name: "Duy9" },
+    { id: 10, name: "Duy10" },
+  ]);
   return (
     <View style={styles.container}>
-      <Text>Hello world!!</Text>
-      <Text style={styles.hello}>Hello world2</Text>
-      <View>
-        <Text>{count}</Text>
-        <Button title='Increase' onPress={() => setCount(count + 1)} />
-      </View>
+      <Text style={{ paddingVertical: 30 }}>Hello world!!</Text>
+      <ScrollView>
+        {students.map((item) => {
+          return (
+            <View
+              key={item.id}
+              style={{
+                padding: 30,
+                backgroundColor: "pink",
+                marginBottom: 30,
+              }}
+            >
+              <Text>{item.name}</Text>
+            </View>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }
@@ -20,8 +42,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
   hello: {
     fontSize: 30,
