@@ -26,6 +26,7 @@ export default function App() {
       <View style={styles.body}>
         <FlatList
           data={listTodo}
+          keyExtractor={(item) => item.id + ""}
           renderItem={({ item }) => {
             return <Text style={styles.todoItem}>{item.name}</Text>;
           }}
