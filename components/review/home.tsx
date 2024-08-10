@@ -1,12 +1,39 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { Button, Text, View } from "react-native";
+import { useState } from "react";
+import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { IReview } from "../../types/review";
 
-const HomeScreen = ({ navigation }: any) => {
+const HomeScreen = () => {
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
+
+  const [reviews, setReviews] = useState<IReview[]>([
+    { id: 1, title: "React Native", rating: 5 },
+    { id: 2, title: "Hoang Duy", rating: 2 },
+  ]);
   return (
     <View>
-      <Text>Home screen</Text>
-      <Button title='View Detail' onPress={() => navigation.navigate("review-detail")} />
+      <Text style={{ fontSize: 30 }}>Review List:</Text>
+      <FlatList
+        data={reviews}
+        keyExtractor={(item) => item.id + ""}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity onPress={() => navigation.navigate("review-detail", item)}>
+              <View style={styles.reviewItem}>
+                <Text>{item.title}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
+      />
     </View>
   );
 };
+const styles = StyleSheet.create({
+  reviewItem: {
+    padding: 15,
+    backgroundColor: "#ccc",
+    margin: 15,
+  },
+});
 export default HomeScreen;
