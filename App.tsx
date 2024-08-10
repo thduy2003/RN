@@ -1,110 +1,30 @@
-import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import {
-  Alert,
-  Button,
-  FlatList,
-  Keyboard,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-interface ITodo {
-  id: number;
-  name: string;
-}
-export default function App() {
-  const [todo, setTodo] = useState("");
-  const [listTodo, setListTodo] = useState<ITodo[]>([]);
-  function randomInteger(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  function handleAddTodo() {
-    if (!todo) {
-      Alert.alert("Error !", "The content cannot be empty", [{ text: "OK", onPress: () => console.log("OK PRESSED") }]);
-      return;
+import { View } from "react-native";
+import AboutScreen from "./components/review/about";
+import DetailScreen from "./components/review/detail";
+import HomeScreen from "./components/review/home";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
+import { useEffect } from "react";
+
+SplashScreen.preventAutoHideAsync();
+const App = () => {
+  const [loaded, error] = useFonts({
+    "OpenSans-Regular": require("./assets/fonts/OpenSans-Regular.ttf"),
+  });
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
     }
-    setListTodo([...listTodo, { id: randomInteger(2, 2000000), name: todo }]);
-    setTodo("");
-  }
-  function deleteTodo(id: number) {
-    const newTodo = listTodo.filter((item) => item.id !== id);
-    setListTodo(newTodo);
+  }, [loaded, error]);
+  if (!loaded && !error) {
+    return null;
   }
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <Text style={styles.header}>Todo APP</Text>
-        <View style={styles.form}>
-          <TextInput value={todo} onChangeText={(value) => setTodo(value)} style={styles.todoInput}></TextInput>
-          <Button title='Add todo' onPress={handleAddTodo} />
-        </View>
-        <View style={styles.todo}>
-          <FlatList
-            data={listTodo}
-            keyExtractor={(item) => item.id + ""}
-            renderItem={({ item }) => {
-              return (
-                <Pressable onPress={() => deleteTodo(item.id)} style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
-                  <View style={styles.groupTodo}>
-                    <Text style={styles.todoItem}>{item.name}</Text>
-                    <AntDesign name='close' size={24} color='black' />
-                  </View>
-                </Pressable>
-              );
-            }}
-          />
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
+    <View>
+      <HomeScreen />
+      <DetailScreen />
+      <AboutScreen />
+    </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: 50,
-  },
-  header: {
-    backgroundColor: "orange",
-    paddingHorizontal: 20,
-    textAlign: "center",
-    fontSize: 60,
-  },
-  todoInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: "green",
-    padding: 5,
-    margin: 15,
-  },
-  body: {
-    paddingHorizontal: 10,
-    marginBottom: 20,
-  },
-  todoItem: {
-    fontSize: 20,
-  },
-  form: {
-    paddingHorizontal: 10,
-    marginBottom: 20,
-  },
-  todo: {
-    flex: 1,
-  },
-  groupTodo: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: 1,
-    borderStyle: "dashed",
-    marginBottom: 15,
-    marginHorizontal: 10,
-    padding: 15,
-  },
-});
+};
+export default App;
