@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 interface ITodo {
   id: number;
   name: string;
@@ -39,18 +40,21 @@ export default function App() {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <Text style={styles.header}>Todo APP</Text>
-        <View style={styles.body}>
+        <View style={styles.form}>
           <TextInput value={todo} onChangeText={(value) => setTodo(value)} style={styles.todoInput}></TextInput>
           <Button title='Add todo' onPress={handleAddTodo} />
         </View>
-        <View style={styles.body}>
+        <View style={styles.todo}>
           <FlatList
             data={listTodo}
             keyExtractor={(item) => item.id + ""}
             renderItem={({ item }) => {
               return (
                 <Pressable onPress={() => deleteTodo(item.id)} style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}>
-                  <Text style={styles.todoItem}>{item.name}</Text>
+                  <View style={styles.groupTodo}>
+                    <Text style={styles.todoItem}>{item.name}</Text>
+                    <AntDesign name='close' size={24} color='black' />
+                  </View>
                 </Pressable>
               );
             }}
@@ -85,9 +89,22 @@ const styles = StyleSheet.create({
   },
   todoItem: {
     fontSize: 20,
+  },
+  form: {
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
+  todo: {
+    flex: 1,
+  },
+  groupTodo: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     borderWidth: 1,
     borderStyle: "dashed",
-    marginBottom: 20,
-    padding: 10,
+    marginBottom: 15,
+    marginHorizontal: 10,
+    padding: 15,
   },
 });
