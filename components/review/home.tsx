@@ -12,7 +12,7 @@ const HomeScreen = () => {
   ]);
   return (
     <View>
-      <Text style={{ fontSize: 30 }}>Review List:</Text>
+      <Text style={{ fontSize: 30, padding: 10 }}>Review List:</Text>
       <FlatList
         data={reviews}
         keyExtractor={(item) => item.id + ""}

@@ -8,7 +8,9 @@ import { useEffect } from "react";
 import { OPENSANS_REGULAR } from "./utils/const";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-
+import "react-native-gesture-handler";
+import AppNavigation from "./components/navigation/app.navigation";
+import { SafeAreaView } from "react-native-safe-area-context";
 SplashScreen.preventAutoHideAsync();
 const App = () => {
   const [loaded, error] = useFonts({
@@ -24,12 +26,11 @@ const App = () => {
   }
   const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='home' component={HomeScreen} options={{ title: "Trang Chủ" }}></Stack.Screen>
-        <Stack.Screen name='review-detail' component={DetailScreen} options={{ title: "Chi tiết review" }}></Stack.Screen>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <AppNavigation />
+      </NavigationContainer>
+    </SafeAreaView>
   );
 };
 export default App;
